@@ -1,4 +1,3 @@
-import styled from 'styled-components'
 import GlobalStyle from './theme/globalStyle'
 import { useState, useEffect } from 'react'
 import Select from './Select'
@@ -36,7 +35,7 @@ function App() {
     <div className='container_center'>
       <GlobalStyle />
       <h1>Select a fruit:</h1>
-      <Select 
+      <Select
         className='select'
         disabled={false}
         loading={loading}
