@@ -122,6 +122,10 @@ const GlobalStyle = createGlobalStyle`
     color: inherit;
   }
   
+  .select {
+    width: 50%;
+  }
+
   .container {
     grid-area: main;
     display: flex;
@@ -133,6 +137,8 @@ const GlobalStyle = createGlobalStyle`
 
   .container_center {
     display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
     align-items: center;
     max-width: 50rem;
     height: Calc(100vh - 6rem);

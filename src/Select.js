@@ -2,9 +2,18 @@ import styled from 'styled-components'
 import { FaTimes as CancelIcon } from 'react-icons/fa'
 import { SpinnerRing } from './Spinner'
 
-const Select = ({ loading, value, onChange, onClear, name, selectOptions }) => {
+const Select = ({
+  className,
+  loading,
+  value,
+  onChange,
+  onClear,
+  name,
+  selectOptions,
+  placeholder
+}) => {
   return (
-    <Wrapper>
+    <Wrapper className={className}>
       {loading && <SpinnerRing size={1} />}
       <InputSelect
         name={`select_${name}`}
@@ -14,7 +23,7 @@ const Select = ({ loading, value, onChange, onClear, name, selectOptions }) => {
         autocomplete='new-password'
         list={`list_${name}`}
         onChange={onChange}
-        placeholder={`${loading ? 'Carregando...' : 'Digite ou selecione...'}`}
+        placeholder={`${loading ? placeholder.loading : placeholder.finish}`}
         spellCheck='false'
       />
       {value && <Clear onClick={onClear}>x</Clear>}
@@ -23,8 +32,8 @@ const Select = ({ loading, value, onChange, onClear, name, selectOptions }) => {
           selectOptions.map((item, key) => (
             <option
               key={key}
-              id={item._id}
-              value={item.nome}
+              id={item.id}
+              value={item.name}
               label={item.label}
             />
           ))}
