@@ -5,19 +5,23 @@ import { SpinnerRing } from './Spinner'
 const Select = ({
   className,
   loading,
+  disabled,
   value,
   onChange,
   onClear,
   name,
+  error,
+  errorMessage,
   selectOptions,
   placeholder
 }) => {
+  // const {err, message} = {...error}
   return (
     <Wrapper className={className}>
       {loading && <SpinnerRing size={1} />}
       <InputSelect
         name={`select_${name}`}
-        disabled={loading}
+        disabled={disabled || loading}
         type='text'
         value={value}
         autocomplete='new-password'
@@ -25,8 +29,10 @@ const Select = ({
         onChange={onChange}
         placeholder={`${loading ? placeholder.loading : placeholder.finish}`}
         spellCheck='false'
+        error={error}
       />
-      {value && <Clear onClick={onClear}>x</Clear>}
+      {(value && !disabled) && <Clear onClick={onClear}>x</Clear>}
+      {error && <Error>{errorMessage}</Error>}
       <datalist id={`list_${name}`}>
         {Array.isArray(selectOptions) &&
           selectOptions.map((item, key) => (
@@ -42,6 +48,13 @@ const Select = ({
   )
 }
 
+const Error = styled.p`
+  color: #f31;
+  font-size: 0.75rem;
+  margin-top: 0rem;
+  margin-left: 0.2rem;
+`
+
 const Wrapper = styled.div`
   position: relative;
 `
@@ -53,11 +66,18 @@ const InputSelect = styled.input`
   border: 1px solid rgba(0, 0, 0, 0.2);
   padding: 0.3rem 1.3rem 0.3rem 0.6rem;
   padding-right: ${({ value }) => (value ? '1.3rem' : '0.3rem')};
+  border-color: ${({ error }) => (error ? 'red' : 'rgba(0, 0, 0, 0.2)')};
+  color: ${({ error }) => (error ? 'red' : 'inherit')};
   transition: all 0.3s ease-in-out;
 
   :hover {
-    border-color: rgba(0, 0, 0, 0.87);
+    border-color: ${({ error }) => (error ? 'red' : 'rgba(0, 0, 0, 0.87)')};
+    /* border-color: rgba(0, 0, 0, 0.87); */
   }
+
+  /* :focus {
+    border-width: 2px;
+  } */
 
   &:disabled {
     background: var(--clr-secondary-low);
@@ -75,7 +95,7 @@ const Clear = styled(CancelIcon)`
   position: absolute;
   color: red;
   right: 0.5rem;
-  bottom: 0.5rem;
+  top: 0.5rem;
   cursor: pointer;
   font-size: 14px;
 `

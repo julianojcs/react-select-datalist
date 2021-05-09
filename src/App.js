@@ -5,8 +5,10 @@ import Select from './Select'
 function App() {
   const [loading, setLoading] = useState(false)
   const [value, setValue] = useState(null)
+  const [error, setError] = useState()
 
   const options = [
+    { id: 1, name: 'Dog', label: 'Black' },
     { id: 1, name: 'Orange', label: 'Orange' },
     { id: 1, name: 'Lime', label: 'Green' },
     { id: 1, name: 'Strawberry', label: 'Red' },
@@ -17,7 +19,12 @@ function App() {
   ]
 
   const handleChange = ({ target }) => {
+    setError(null)
     setValue(target.value)
+    if (target.value === 'Dog') {
+      setError('Dog is not a fruit!')
+      return
+    }
   }
 
   const handleClear = () => {
@@ -45,6 +52,8 @@ function App() {
         name='mySelect'
         selectOptions={options}
         placeholder={{ loading: 'Loading...', finish: 'Type or select' }}
+        error={!!error}
+        errorMessage={error}
       />
     </div>
   )
